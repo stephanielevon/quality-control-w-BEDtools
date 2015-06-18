@@ -4,7 +4,7 @@
 # Date : 13/04/15
 # Author : Levon Stephanie 
 # Purpose : utiliser l'outil BEDtools et la commande "coverage". Nécessite deux fichiers : le fichier .bam (reads alignés) 
-# et le fichier .bed (coordonnées des captures d'exons). 
+# et le fichier .bed (coordonnées des capture). 
 
 use strict;
 use warnings;
@@ -41,9 +41,9 @@ if ($nbArguments != 4){
 
 my @output = split(/\./, $options{"bed_file"}); # Se sert du nom de fichier entré par l'utilisateur pour nommer le nouveau fichier
 my $bedtools_res = $output[0].".coverage.tsv"; 
-#system (" bedtools coverage -b $options{bed_file} -abam $options{bam_file} > $bedtools_res "); # Place dans un fichier de sortie 
-#my $bedtools_sorted = $output[0].".coverage_sorted.tsv"; 
-#system("sed 's/^chr//g' $bedtools_res | sort -k 1,1n  > $bedtools_sorted"); # | awk '{print \"chr\"\$0}'
+system (" bedtools coverage -b $options{bed_file} -abam $options{bam_file} > $bedtools_res "); # Place dans un fichier de sortie 
+my $bedtools_sorted = $output[0].".coverage_sorted.tsv"; 
+system("sed 's/^chr//g' $bedtools_res | sort -k 1,1n  > $bedtools_sorted"); # | awk '{print \"chr\"\$0}';
 
 
 #---------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -66,8 +66,9 @@ my$plot_file = $R -> run (
 	q`ratio <- data [,7]`,
 
 	q`hist(ratio)`,
+
 	q`boxplot (depth~chr, las=2, ylim = c (0, 16000), col = heat.colors(22))`,
-	q`title (main = "Comparing boxplots of read depth per chromosome in targeted DNA-seq", xlab = "Chromosome", ylab = "Distribution of the number of overlapping reads per trageted region")`,
+	q`title (main = "Comparaison des densités de lectures \n par régions cibles par chromosome", xlab = "Chromosome", ylab = "Densité de lectures par région ciblée")`,
 
 	q`dev.off()`
 	);
