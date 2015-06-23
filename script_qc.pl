@@ -68,7 +68,7 @@ my$plot_file = $R -> run (
 	q`hist(ratio)`,
 
 	q`boxplot (depth~chr, las=2, ylim = c (0, 16000), col = heat.colors(22))`,
-	q`title (main = "Comparaison des densités de lectures \n par régions cibles par chromosome", xlab = "Chromosome", ylab = "Densité de lectures par région ciblée")`,
+	q`title (main = "Comparaison du nombre de lectures \n par région de capture et par chromosome", xlab = "Chromosome", ylab = "Nombre de lectures par région ciblée")`,
 
 	q`dev.off()`
 	);
